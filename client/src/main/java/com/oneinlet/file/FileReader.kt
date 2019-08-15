@@ -9,4 +9,17 @@ package com.oneinlet.file
  */
 class FileReader {
 
+
+
+
 }
+
+
+
+
+
+
+
+
+
+

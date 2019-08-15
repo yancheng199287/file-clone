@@ -9,7 +9,11 @@ import io.netty.channel.ChannelInitializer
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioSocketChannel
+import io.netty.util.concurrent.Future
+import io.netty.util.concurrent.GenericFutureListener
+import io.netty.util.concurrent.SucceededFuture
 import org.slf4j.LoggerFactory
+import java.util.*
 
 /**
  * Created by WangZiHe on 19-8-15
@@ -23,7 +27,7 @@ class CloneClient {
     private val logger = LoggerFactory.getLogger("CloneClient")
 
 
-    fun startCloneClient(clientConfig: ClientConfig) {
+    fun startCloneClient(clientConfig: ClientConfig, listener: ClientConnectSuccessListener) {
         val group = NioEventLoopGroup()
         val bootstrap = Bootstrap()
         try {
@@ -39,13 +43,19 @@ class CloneClient {
                         }
                     })
             val f = bootstrap.connect().sync().addListener {
-                logger.info("connect server ok，you can sync file！")
+                listener.onSuccess()
             }
+            logger.info("connect server ok，you can sync file！")
             f.channel().closeFuture().sync()
-
         } finally {
             group.shutdownGracefully()
         }
-
     }
+
+
+    interface ClientConnectSuccessListener{
+        fun onSuccess()
+    }
+
+
 }
