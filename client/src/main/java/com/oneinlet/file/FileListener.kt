@@ -1,4 +1,4 @@
-package com.oneinlet.common.file
+package com.oneinlet.file
 
 import org.apache.commons.io.monitor.FileAlterationListenerAdaptor
 import org.apache.commons.io.monitor.FileAlterationObserver

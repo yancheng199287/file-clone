@@ -1,6 +1,6 @@
 package com.oneinlet.file
 
-import com.oneinlet.common.file.FileListener
+import com.oneinlet.common.bean.ClientFileConfig
 import org.apache.commons.io.filefilter.FileFilterUtils
 import org.apache.commons.io.filefilter.HiddenFileFilter
 import org.apache.commons.io.monitor.FileAlterationMonitor
@@ -17,11 +17,11 @@ import java.util.concurrent.TimeUnit
  */
 class FileMonitor {
 
-    fun start(){
-        println("文件监控")
+    fun start(clientFileConfig: ClientFileConfig) {
 
+        println("文件监控")
         // 监控目录
-        val rootDir = "/home/yancheng/temp/file"
+        val rootDir = clientFileConfig.sourcePath
         // 轮询间隔 5 秒
         val interval = TimeUnit.SECONDS.toMillis(1)
         // 创建过滤器

@@ -8,4 +8,4 @@ package com.oneinlet.common.bean
  * Github:https://github.com/yancheng199287
  */
 
-data class IgnoreFile(val format: List<String>, val size: Int)
+data class ClientFileConfig(val sourcePath:String,val ignoreFormat: List<String>, val ignoreMaxSize: Int)

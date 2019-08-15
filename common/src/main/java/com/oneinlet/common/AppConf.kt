@@ -1,8 +1,9 @@
 package com.oneinlet.common
 
 import com.oneinlet.common.bean.ClientConfig
-import com.oneinlet.common.bean.IgnoreFile
+import com.oneinlet.common.bean.ClientFileConfig
 import com.oneinlet.common.bean.ServerConfig
+import com.oneinlet.common.bean.ServerFileConfig
 import com.typesafe.config.ConfigFactory
 import io.github.config4k.extract
 
@@ -22,10 +23,13 @@ object AppConf {
         return config.getString("secret")
     }
 
-    fun parserIgnoreFile(): IgnoreFile {
-        return config.extract("ignoreFile")
+    fun parserClientFileConfig(): ClientFileConfig {
+        return config.extract("clientFileConfig")
     }
 
+    fun parserServerFileConfig(): ServerFileConfig {
+        return config.extract("serverFileConfig")
+    }
     fun parserClientConf(): ClientConfig {
         return config.extract("clientConfig")
     }
