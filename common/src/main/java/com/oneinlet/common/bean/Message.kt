@@ -18,9 +18,9 @@ data class Message(
 )
 
 enum class FileAction {
-    MAKE_FILE,
-    UPDATE_FILE,
-    DELETE_FILE,
+    MAKE_FILE,//传输文件
+    UPDATE_FILE,//传输文件
+    DELETE_FILE,//发送指令 删除文件
 
     MAKE_DIRECTORY,
     UPDATE_DIRECTORY,

@@ -36,4 +36,16 @@ class FileMonitor(private var publisher: MessageEventProducerWithTranslator) {
         // 开始监控
         monitor.start()
     }
+
+
+    fun scanDirectory(rootDirectory: File, fileList: ArrayList<File>) {
+        val files = rootDirectory.listFiles()
+        for (file in files) {
+            if (file.isDirectory) {
+                this.scanDirectory(file, fileList)
+            } else {
+                fileList.add(file)
+            }
+        }
+    }
 }
