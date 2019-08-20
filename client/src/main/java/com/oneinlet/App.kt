@@ -1,8 +1,6 @@
 package com.oneinlet
 
 import com.oneinlet.common.AppConf
-import com.oneinlet.disruptor.DisruptorServer
-import com.oneinlet.file.FileMonitor
 
 /**
  * Created by WangZiHe on 19-8-15
@@ -18,11 +16,11 @@ fun main() {
     //启动客户端
     CloneClient().startCloneClient(clientClient, object : CloneClient.ClientConnectSuccessListener {
         override fun onSuccess() {
-            val publishProducer = DisruptorServer().startDisruptorServer()
-            println("Disruptor service  has started")
+          //  val publishProducer = DisruptorServer().startDisruptorServer()
+           // println("Disruptor service  has started")
             //启动文件扫描监听器
-            FileMonitor(publishProducer).startFileStatus()
-            println("FileMonitor service  has started")
+          //  FileMonitor().startFileStatus()
+           // println("FileMonitor service  has started")
         }
     })
 }

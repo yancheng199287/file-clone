@@ -1,7 +1,6 @@
-package com.oneinlet.disruptor
+package com.oneinlet.common.disruptor
 
 import com.lmax.disruptor.EventFactory
-import com.oneinlet.common.bean.Message
 
 /**
  * Created by WangZiHe on 19-8-15

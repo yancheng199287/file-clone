@@ -1,4 +1,4 @@
-package com.oneinlet.disruptor
+package com.oneinlet.common.disruptor
 
 import com.lmax.disruptor.*
 import com.oneinlet.common.bean.FileAction
@@ -17,16 +17,16 @@ import java.io.File
 //使用translator来去发布生产消息
 class MessageEventProducerWithTranslator(private val ringBuffer: RingBuffer<MessageEvent>) {
 
-    fun onData(file: File, fileAction: FileAction) {
-        ringBuffer.publishEvent(TRANSLATOR, file, fileAction)
+    fun onData(message: Message, rw: Byte) {
+        ringBuffer.publishEvent(TRANSLATOR, message, rw)
     }
 
     companion object {
 
-        private val TRANSLATOR = EventTranslatorTwoArg<MessageEvent, File, FileAction> { event, sequence, file, fileAction ->
+        private val TRANSLATOR = EventTranslatorTwoArg<MessageEvent, Message, Byte> { event, sequence, message, rw ->
             event.sequence = sequence
-            event.file = file
-            event.fileAction = fileAction
+            event.message = message
+            event.rw = rw
         }
     }
 }

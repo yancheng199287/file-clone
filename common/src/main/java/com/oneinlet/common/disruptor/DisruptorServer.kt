@@ -1,4 +1,4 @@
-package com.oneinlet.disruptor
+package com.oneinlet.common.disruptor
 
 import com.lmax.disruptor.BlockingWaitStrategy
 import com.lmax.disruptor.dsl.Disruptor

@@ -1,15 +1,13 @@
-package com.oneinlet.file
+package com.oneinlet.common.file;
 
 /**
- * Created by WangZiHe on 19-8-19
+ * Created by WangZiHe on 19-8-16
  * QQ/WeChat:648830605
  * QQ-Group:368512253
  * Blog:www.520code.net
  * Github:https://github.com/yancheng199287
  */
-class FileScan {
-
-
+public class FileQueue {
 
 
 }

@@ -3,6 +3,7 @@ package com.oneinlet.protocol
 import com.esotericsoftware.kryo.Kryo
 import com.oneinlet.common.bean.FileAction
 import com.oneinlet.common.bean.Message
+import com.oneinlet.common.bean.TransferStatus
 
 
 /**
@@ -31,6 +32,8 @@ class KryoFactory {
         kryo.register(Message::class.java)
         kryo.register(ByteArray::class.java)
         kryo.register(FileAction::class.java)
+        kryo.register(TransferStatus::class.java)
+
         return kryo
     }
 

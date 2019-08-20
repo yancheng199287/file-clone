@@ -1,6 +1,8 @@
 package com.oneinlet.handler
 
 import com.oneinlet.common.bean.Message
+import com.oneinlet.common.bean.TransferStatus
+import com.oneinlet.common.file.FileSpiltPart
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.SimpleChannelInboundHandler
 import org.slf4j.LoggerFactory
@@ -23,8 +25,16 @@ class CloneServerHandler : SimpleChannelInboundHandler<Message>() {
         ctx!!.writeAndFlush(Message())
     }
 
-    override fun channelRead0(ctx: ChannelHandlerContext?, msg: Message?) {
+    override fun channelRead0(ctx: ChannelHandlerContext, msg: Message) {
         logger.info("服务端读取客户端的消息：$msg")
+        val message = FileSpiltPart.receivePartStream(msg)
+        if (message.transferStatus == TransferStatus.RECEIVE_FINISHED) {
+            logger.info("已经完全接收对方发来的文件：${message}")
+            ctx.close()
+            return
+        }
+        ctx.writeAndFlush(message)
+
     }
 
 }

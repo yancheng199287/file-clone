@@ -1,7 +1,6 @@
-package com.oneinlet.file
+package com.oneinlet.common.file
 
 import com.oneinlet.common.bean.FileAction
-import com.oneinlet.disruptor.MessageEventProducerWithTranslator
 import org.apache.commons.io.monitor.FileAlterationListenerAdaptor
 import org.apache.commons.io.monitor.FileAlterationObserver
 import org.slf4j.LoggerFactory
@@ -15,7 +14,7 @@ import java.io.File
  * Github:https://github.com/yancheng199287
  */
 
-class FileListener(private var publisher: MessageEventProducerWithTranslator) : FileAlterationListenerAdaptor() {
+class FileListener() : FileAlterationListenerAdaptor() {
 
     private val log = LoggerFactory.getLogger(FileListener::class.java)
 
@@ -79,6 +78,6 @@ class FileListener(private var publisher: MessageEventProducerWithTranslator) : 
     }
 
     fun pushEvent(file: File, fileAction: FileAction) {
-        publisher.onData(file, fileAction)
+        //publisher.onData(file, fileAction)
     }
 }

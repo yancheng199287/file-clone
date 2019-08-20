@@ -57,4 +57,9 @@ class TestFile {
         raFile.seek(1024)
         println("获取指定节点：" + raFile.filePointer)
     }
+
+    @Test
+    fun formatSize(){
+        println(YCFormat.formatSpaceSize(5555))
+    }
 }

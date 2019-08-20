@@ -9,11 +9,7 @@ import io.netty.channel.ChannelInitializer
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioSocketChannel
-import io.netty.util.concurrent.Future
-import io.netty.util.concurrent.GenericFutureListener
-import io.netty.util.concurrent.SucceededFuture
 import org.slf4j.LoggerFactory
-import java.util.*
 
 /**
  * Created by WangZiHe on 19-8-15

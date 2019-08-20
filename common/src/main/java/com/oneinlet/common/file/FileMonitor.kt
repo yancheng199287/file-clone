@@ -1,6 +1,5 @@
-package com.oneinlet.file
+package com.oneinlet.common.file
 
-import com.oneinlet.disruptor.MessageEventProducerWithTranslator
 import org.apache.commons.io.filefilter.FileFilterUtils
 import org.apache.commons.io.filefilter.HiddenFileFilter
 import org.apache.commons.io.monitor.FileAlterationMonitor
@@ -15,7 +14,7 @@ import java.util.concurrent.TimeUnit
  * Blog:www.520code.net
  * Github:https://github.com/yancheng199287
  */
-class FileMonitor(private var publisher: MessageEventProducerWithTranslator) {
+class FileMonitor() {
 
     fun startFileStatus() {
         // 监控目录
@@ -30,7 +29,7 @@ class FileMonitor(private var publisher: MessageEventProducerWithTranslator) {
         val observer = FileAlterationObserver(File(rootDir), filter)
         //不使用过滤器
         //FileAlterationObserver observer = new FileAlterationObserver(new File(rootDir));
-        observer.addListener(FileListener(publisher))
+        observer.addListener(FileListener())
         //创建文件变化监听器
         val monitor = FileAlterationMonitor(interval, observer)
         // 开始监控

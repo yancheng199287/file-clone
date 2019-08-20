@@ -9,4 +9,6 @@ package com.oneinlet.common.bean
  */
 object Constant {
     val fileSpiltPartLength = 1024 * 10
+    val clientBasePath: String? = null //客户端基路径
+    val serverBasePath: String? = null//服务端基路径
 }

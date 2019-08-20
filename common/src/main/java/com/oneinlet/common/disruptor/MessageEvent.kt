@@ -1,7 +1,6 @@
-package com.oneinlet.disruptor
+package com.oneinlet.common.disruptor
 
-import com.oneinlet.common.bean.FileAction
-import java.io.File
+import com.oneinlet.common.bean.Message
 
 /**
  * Created by WangZiHe on 19-8-15
@@ -13,6 +12,7 @@ import java.io.File
 
 data class MessageEvent(
         var sequence: Long? = null,//序号
-        var file: File? = null,
-        var fileAction: FileAction? = null
+        var message: Message? = null,
+        var rw: Byte? = null  // 当前是读还是写
 )
+
