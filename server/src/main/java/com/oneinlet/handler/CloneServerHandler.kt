@@ -22,7 +22,6 @@ class CloneServerHandler : SimpleChannelInboundHandler<Message>() {
 
     override fun channelActive(ctx: ChannelHandlerContext?) {
         logger.info("服务端通道激活")
-        ctx!!.writeAndFlush(Message())
     }
 
     override fun channelRead0(ctx: ChannelHandlerContext, msg: Message) {
