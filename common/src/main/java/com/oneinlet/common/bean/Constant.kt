@@ -11,4 +11,5 @@ object Constant {
     val fileSpiltPartLength = 1024 * 10
     val clientBasePath: String? = null //客户端基路径
     val serverBasePath: String? = null//服务端基路径
+    var scanVersion: String? = null//本次扫描文件的版本标识，如果不是本次的都删除
 }

@@ -40,7 +40,15 @@ class SQLiteTest {
         val fileData2 = FileDataDao.queryForFieldValues(map)
         println(fileData2)
 
-        val count=FileDataDao.countFileData()
+        val count = FileDataDao.countFileData()
         println(count)
+    }
+
+
+    @Test
+    fun updateEndStatusForFileDataByMd5() {
+        FileDataDao.updateEndStatusForFileDataByMd5("ad656asd6a5da56a")
+        val fileData = FileDataDao.queryForId(1)
+        println(fileData)
     }
 }
