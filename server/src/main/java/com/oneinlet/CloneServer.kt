@@ -43,7 +43,7 @@ class CloneServer {
                             })
             val f: ChannelFuture = serverBootstrap.bind(serverConfig.host, serverConfig.port).sync()
             val address = f.channel().localAddress()
-            logger.info("CloneSServer has been started，address:$address ,  please enjoy it！")
+            logger.info("CloneServer has been started，address:$address ,  please enjoy it！")
             f.channel().closeFuture().sync()
         } finally {
             bossGroup.shutdownGracefully()

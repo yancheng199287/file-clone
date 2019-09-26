@@ -18,19 +18,23 @@ object AppConf {
 
     val config = ConfigFactory.load()
 
-    fun parserSecret(): String {
+    fun parseTempFilePath(): String {
+        return System.getProperty("user.dir") + "/" + "temp.txt"
+    }
+
+    fun parseSecret(): String {
         return config.getString("secret")
     }
 
-    fun parserIgnoreFile(): IgnoreFile {
+    fun parseIgnoreFile(): IgnoreFile {
         return config.extract("ignoreFile")
     }
 
-    fun parserClientConf(): ClientConfig {
+    fun parseClientConf(): ClientConfig {
         return config.extract("clientConfig")
     }
 
-    fun parserServerConf(): ServerConfig {
+    fun parseServerConf(): ServerConfig {
         return config.extract("serverConfig")
     }
 

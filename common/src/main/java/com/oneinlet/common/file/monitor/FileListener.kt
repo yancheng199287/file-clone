@@ -1,4 +1,4 @@
-package com.oneinlet.common.file
+package com.oneinlet.common.file.monitor
 
 import com.oneinlet.common.bean.FileAction
 import org.apache.commons.io.monitor.FileAlterationListenerAdaptor
@@ -14,7 +14,7 @@ import java.io.File
  * Github:https://github.com/yancheng199287
  */
 
-class FileListener() : FileAlterationListenerAdaptor() {
+class FileListener : FileAlterationListenerAdaptor() {
 
     private val log = LoggerFactory.getLogger(FileListener::class.java)
 

@@ -1,9 +1,11 @@
-package com.oneinlet.common.file
+package com.oneinlet.common.file.monitor
 
+import com.oneinlet.common.AppConf
 import org.apache.commons.io.filefilter.FileFilterUtils
 import org.apache.commons.io.filefilter.HiddenFileFilter
 import org.apache.commons.io.monitor.FileAlterationMonitor
 import org.apache.commons.io.monitor.FileAlterationObserver
+import org.slf4j.LoggerFactory
 import java.io.File
 import java.util.concurrent.TimeUnit
 
@@ -14,11 +16,13 @@ import java.util.concurrent.TimeUnit
  * Blog:www.520code.net
  * Github:https://github.com/yancheng199287
  */
-class FileMonitor() {
+object FileMonitor {
 
-    fun startFileStatus() {
-        // 监控目录
-        val rootDir = "/home/yancheng/temp/file"
+    private val logger = LoggerFactory.getLogger("FileMonitor")
+
+
+    private fun fileMonitor(rootDir: String) {
+
         // 轮询间隔 5 秒
         val interval = TimeUnit.SECONDS.toMillis(1)
         // 创建过滤器
@@ -34,17 +38,16 @@ class FileMonitor() {
         val monitor = FileAlterationMonitor(interval, observer)
         // 开始监控
         monitor.start()
+        logger.info("FileMonitor server has started!")
+    }
+
+    fun startClientFileMonitor() {
+        fileMonitor(AppConf.parseClientConf().sourcePath)
+    }
+
+    fun startServerFileMonitor() {
+        fileMonitor(AppConf.parseServerConf().sourcePath)
     }
 
 
-    fun scanDirectory(rootDirectory: File, fileList: ArrayList<File>) {
-        val files = rootDirectory.listFiles()
-        for (file in files) {
-            if (file.isDirectory) {
-                this.scanDirectory(file, fileList)
-            } else {
-                fileList.add(file)
-            }
-        }
-    }
 }

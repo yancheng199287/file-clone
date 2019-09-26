@@ -1,7 +1,7 @@
 package com.oneinlet.common.disruptor
 
 import com.lmax.disruptor.EventHandler
-import com.oneinlet.common.file.FileSpiltPart
+import com.oneinlet.common.file.rw.FileSpiltPart
 import org.slf4j.LoggerFactory
 
 /**

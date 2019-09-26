@@ -1,7 +1,5 @@
 package com.oneinlet.common.event.source
 
-import com.oneinlet.common.bean.Message
-import java.io.File
 
 /**
  * Created by WangZiHe on 19-8-20

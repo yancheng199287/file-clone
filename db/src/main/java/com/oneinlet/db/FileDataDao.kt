@@ -1,7 +1,6 @@
 package com.oneinlet.db
 
 import com.j256.ormlite.dao.BaseDaoImpl
-import com.oneinlet.common.bean.FileData
 import java.sql.Timestamp
 
 /**

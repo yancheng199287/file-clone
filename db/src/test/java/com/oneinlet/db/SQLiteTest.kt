@@ -1,6 +1,5 @@
 package com.oneinlet.db
 
-import com.oneinlet.common.bean.FileData
 import org.junit.Test
 import java.sql.Timestamp
 

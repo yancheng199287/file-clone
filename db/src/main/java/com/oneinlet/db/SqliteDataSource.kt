@@ -4,7 +4,6 @@ import com.j256.ormlite.jdbc.DataSourceConnectionSource
 import org.apache.commons.dbcp2.BasicDataSource
 import com.j256.ormlite.support.ConnectionSource
 import com.j256.ormlite.table.TableUtils
-import com.oneinlet.common.bean.FileData
 
 
 /**

@@ -1,15 +1,11 @@
 package com.oneinlet.db
 
-import com.oneinlet.YCLocalDateTime
-import com.oneinlet.YCString
-import com.oneinlet.common.bean.Constant
-import com.oneinlet.common.bean.FileData
 import org.apache.commons.codec.digest.DigestUtils
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.FileInputStream
+import java.lang.Exception
 import java.sql.Timestamp
-import java.time.LocalDateTime
 
 /**
  * Created by WangZiHe on 19-8-26
@@ -21,7 +17,7 @@ import java.time.LocalDateTime
  */
 object FileDataService {
 
-    private val logger = LoggerFactory.getLogger("CloneClient")
+    private val logger = LoggerFactory.getLogger("FileDataService")
 
     fun addFileData(fileData: FileData) {
         val fileData = FileDataDao.queryFileDataByMd5(fileData.md5!!)
@@ -36,7 +32,7 @@ object FileDataService {
         if (fileList == null) {
             throw RuntimeException("文件列表不能为空")
         }
-        Constant.scanVersion = YCLocalDateTime.format(LocalDateTime.now(), "yyyyMMddHHmmss").plus(YCString.generateRandomChar(5))
+        //      Constant.scanVersion = YCLocalDateTime.format(LocalDateTime.now(), "yyyyMMddHHmmss").plus(YCString.generateRandomChar(5))
         if (FileDataDao.countFileData() > 0) {
             afterQuerySave(fileList)
         } else {
@@ -82,27 +78,16 @@ object FileDataService {
         fileData.updateTime = Timestamp(System.currentTimeMillis())
         fileData.path = file.path
         fileData.endStatus = false
-        fileData.md5 = DigestUtils.md5Hex(FileInputStream(file))
-        fileData.version = Constant.scanVersion
-        FileDataDao.saveFileData(fileData)
+        if (file.isFile) {
+            fileData.md5 = DigestUtils.md5Hex(FileInputStream(file))
+        }
+        fileData.version = "55"
         return fileData
     }
 
 
     fun afterQuerySave(fileList: List<File>) {
-        val count = 10
-        val size = fileList.size
-        val batchCount = size.div(count)
-
-        for (i in 0 until batchCount) {
-            val firstIndex = i * count
-            var lastIndex = size.minus(firstIndex)
-            if (lastIndex >= 9) {
-                lastIndex = firstIndex + 9
-            }
-            val list = fileList.subList(firstIndex, lastIndex)
-            this.saveIfNotExist(transformListFileData(list))
-        }
+        this.saveIfNotExist(transformListFileData(fileList))
     }
 
 
@@ -111,7 +96,10 @@ object FileDataService {
      */
     private fun saveIfNotExist(fileDataList: List<FileData>) {
         for (fileData in fileDataList) {
-            val fileDataDB = FileDataDao.queryFileDataByMd5(fileData.md5!!)
+            var fileDataDB: FileData? = fileData
+            if (fileDataDB?.md5 != null) {
+                fileDataDB = FileDataDao.queryFileDataByMd5(fileDataDB.md5!!)
+            }
             if (fileDataDB == null) {
                 FileDataDao.create(fileData)
             } else {

@@ -11,7 +11,7 @@ import com.oneinlet.common.AppConf
  */
 
 fun main() {
-    val serverConfig = AppConf.parserServerConf()
-    println("服务端配置： $serverConfig")
+    val serverConfig = AppConf.parseServerConf()
+    println("server config： $serverConfig")
     CloneServer().startCloneServer(serverConfig)
 }

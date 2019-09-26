@@ -1,0 +1,13 @@
+[package]
+name = "jni"
+version = "0.1.0"
+authors = ["王子和 <648830605@qq.com>"]
+edition = "2018"
+
+
+[dependencies]
+walkdir = "2.2.9"
+
+[lib]
+name = "recursive_path"
+crate-type = ["dylib"]

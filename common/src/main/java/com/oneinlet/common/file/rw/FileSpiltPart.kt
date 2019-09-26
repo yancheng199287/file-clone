@@ -1,4 +1,4 @@
-package com.oneinlet.common.file
+package com.oneinlet.common.file.rw
 
 import com.github.benmanes.caffeine.cache.Caffeine
 import com.oneinlet.common.bean.FileAction
@@ -125,7 +125,7 @@ object FileSpiltPart {
         logger.info("当前正在接收文件:{},已经接收数据:{},当前接收数据：{}", message.fileName, fileChannel!!.size(), message.fileData!!.size)
 
         val buffer = ByteBuffer.wrap(message.fileData)
-        fileChannel!!.write(buffer, readIndex)
+        fileChannel.write(buffer, readIndex)
 
         //如果当前的第几包数大于了或者等于是最后的包数了，意味文件传输完毕
         if (message.transferStatus == TransferStatus.SEND_FINISHED || message.indexPackage!! >= message.totalPackage!! - 1) {

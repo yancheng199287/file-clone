@@ -10,4 +10,16 @@ LOG_HOME_IS_UNDEFINED/
 
 *.log
 
+*.db
+
+*.txt
+
 *.iml
+
+
+#Added by cargo
+#
+#already existing elements are commented out
+
+/target
+**/*.rs.bk

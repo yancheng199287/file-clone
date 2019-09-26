@@ -1,9 +1,9 @@
 package com.oneinlet.handler
 
-import com.oneinlet.common.bean.FileAction
 import com.oneinlet.common.bean.Message
 import com.oneinlet.common.bean.TransferStatus
-import com.oneinlet.common.file.FileSpiltPart
+import com.oneinlet.common.channel.ClientChannelManage
+import com.oneinlet.common.file.rw.FileSpiltPart
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.SimpleChannelInboundHandler
 import org.slf4j.LoggerFactory
@@ -20,7 +20,9 @@ class CloneClientHandler : SimpleChannelInboundHandler<Message>() {
     private val logger = LoggerFactory.getLogger("CloneClientHandler")
 
     override fun channelActive(ctx: ChannelHandlerContext?) {
-        logger.info("客户端连接成功，通道激活")
+        logger.info("client channel Active")
+        ClientChannelManage.CloneServerChannel = ctx!!.channel()
+
         /*  var message = Message()
           message.fileName = "文件名称"
           message.filePath = "/data/user"
@@ -32,9 +34,9 @@ class CloneClientHandler : SimpleChannelInboundHandler<Message>() {
           message.fileData = data.toByteArray()
           ctx!!.writeAndFlush(message)*/
 //马蜂窝香港.pdf  薄冰英语语法指南图文版802236.epub
-        var message = FileSpiltPart.initMessage("/home/yancheng/Downloads/马蜂窝香港.pdf", FileAction.MAKE_FILE)
-        message = FileSpiltPart.getRemainPartStreamMessage(message)
-        ctx!!.writeAndFlush(message)
+        //  var message = FileSpiltPart.initMessage("/home/yancheng/Downloads/马蜂窝香港.pdf", FileAction.MAKE_FILE)
+        //  message = FileSpiltPart.getRemainPartStreamMessage(message)
+        //   ctx!!.writeAndFlush(message)
     }
 
 
