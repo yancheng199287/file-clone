@@ -1,11 +1,14 @@
 package com.oneinlet.db
 
+import com.oneinlet.YCString
 import org.apache.commons.codec.digest.DigestUtils
+import org.apache.commons.lang3.time.StopWatch
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.FileInputStream
 import java.lang.Exception
 import java.sql.Timestamp
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by WangZiHe on 19-8-26
@@ -18,6 +21,8 @@ import java.sql.Timestamp
 object FileDataService {
 
     private val logger = LoggerFactory.getLogger("FileDataService")
+
+    private val version: String = YCString.generateRandomChar(5)
 
     fun addFileData(fileData: FileData) {
         val fileData = FileDataDao.queryFileDataByMd5(fileData.md5!!)
@@ -78,34 +83,55 @@ object FileDataService {
         fileData.updateTime = Timestamp(System.currentTimeMillis())
         fileData.path = file.path
         fileData.endStatus = false
-        if (file.isFile) {
-            fileData.md5 = DigestUtils.md5Hex(FileInputStream(file))
-        }
+        fileData.md5 = DigestUtils.md5Hex(FileInputStream(file))
         fileData.version = "55"
         return fileData
     }
 
 
-    fun afterQuerySave(fileList: List<File>) {
-        this.saveIfNotExist(transformListFileData(fileList))
+    fun afterQuerySave(fileList: List<File>): Int {
+        val watch = StopWatch.createStarted()
+        val fileDataList = transformListFileData(fileList)
+        watch.stop()
+        logger.info("获取50个文件对象数据消耗时间：${watch.getTime(TimeUnit.MILLISECONDS)}")
+
+        watch.reset()
+        watch.start()
+        val c = this.saveIfNotExist(fileDataList)
+        logger.info("插入insert 50个文件对象数据消耗时间：${watch.getTime(TimeUnit.MILLISECONDS)}")
+        return c
     }
 
 
     /***
      *  多线程执行插入操作，分批
      */
-    private fun saveIfNotExist(fileDataList: List<FileData>) {
+
+
+    private fun saveIfNotExist(fileDataList: List<FileData>): Int {
+        val watch = StopWatch.createStarted()
+        watch.stop()
+        var count = 0
         for (fileData in fileDataList) {
+            watch.reset()
+            watch.start()
             var fileDataDB: FileData? = fileData
             if (fileDataDB?.md5 != null) {
                 fileDataDB = FileDataDao.queryFileDataByMd5(fileDataDB.md5!!)
             }
             if (fileDataDB == null) {
                 FileDataDao.create(fileData)
+                count++
             } else {
-                FileDataDao.updateVersionForFileDataByMd5(fileData.version!!, fileData.md5!!)
+                logger.info("发现已存在相同的文件，当前只更新版本号，当前扫描的文件： {}， 已经存在的文件：{}", fileData.path, fileDataDB.path)
+                FileDataDao.updateVersionForFileDataByMd5(fileDataDB.version!!, fileDataDB.md5!!)
             }
+            watch.stop()
+
+            logger.info("插入单个文件对象数据消耗时间：${watch.getTime(TimeUnit.MILLISECONDS)}")
         }
+        logger.info("文件数据插入完毕，总共数量：{}", count)
+        return count
     }
 }
 

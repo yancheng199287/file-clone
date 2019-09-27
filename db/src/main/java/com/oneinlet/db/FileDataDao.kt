@@ -43,10 +43,15 @@ object FileDataDao : BaseDaoImpl<FileData, Int>(SqliteDataSource.getConnection()
     }
 
     /***
+     *  运行批处理操作
      *  如果初次创建数据库，并且数据库没有数据，我们一次性批量导入
      * */
     fun batchSaveFileData(list: List<FileData>) {
-        this.batchSaveFileData(list)
+        this.callBatchTasks {
+            for (fileData in list) {
+                this.create(fileData)
+            }
+        }
     }
 
     fun countFileData(): Long {

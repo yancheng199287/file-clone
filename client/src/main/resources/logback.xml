@@ -66,6 +66,12 @@
     </appender>
 
 
+ <!--   <logger name="com.j256.ormlite.*" level="DEBUG"/>
+    <logger name="com.j256.ormlite.stmt.mapped.BaseMappedStatement" level="TRACE"/>
+    <logger name="com.j256.ormlite.stmt.mapped.MappedCreate" level="TRACE"/>
+    <logger name="com.j256.ormlite.stmt.StatementExecutor " level="TRACE"/>-->
+
+
 
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>

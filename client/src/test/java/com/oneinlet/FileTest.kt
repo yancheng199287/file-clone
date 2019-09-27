@@ -28,7 +28,7 @@ class FileTest {
         FileScan.startFileScan()
         watch.stop()
         println("消耗时间：${watch.getTime(TimeUnit.MILLISECONDS)}")
-        Thread.sleep(8000)
+        Thread.sleep(50000000000)
 
     }
 
