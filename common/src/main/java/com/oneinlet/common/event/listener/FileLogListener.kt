@@ -16,6 +16,6 @@ class FileLogListener {
 
     @Subscribe
     private fun log(fileLogEvent: FileLogEvent) {
-        println("接收到事件发布... $fileLogEvent")
+        println("FileLogEvent-接收到文件传输日志事件：$fileLogEvent")
     }
 }

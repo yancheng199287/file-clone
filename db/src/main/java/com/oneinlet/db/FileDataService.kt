@@ -89,25 +89,17 @@ object FileDataService {
     }
 
 
-    fun afterQuerySave(fileList: List<File>): Int {
-        val watch = StopWatch.createStarted()
+    fun afterQuerySave(fileList: List<File>) {
         val fileDataList = transformListFileData(fileList)
-        watch.stop()
-        logger.info("获取50个文件对象数据消耗时间：${watch.getTime(TimeUnit.MILLISECONDS)}")
-
-        watch.reset()
-        watch.start()
-        val c = this.saveIfNotExist(fileDataList)
-        logger.info("插入insert 50个文件对象数据消耗时间：${watch.getTime(TimeUnit.MILLISECONDS)}")
-        return c
+        println("=====开始批量插入数据...")
+        FileDataDao.batchSave1(FileData.getCurrentVersion(), fileDataList)
+        println("=====完成批量插入数据...")
     }
 
 
     /***
      *  多线程执行插入操作，分批
      */
-
-
     private fun saveIfNotExist(fileDataList: List<FileData>): Int {
         val watch = StopWatch.createStarted()
         watch.stop()

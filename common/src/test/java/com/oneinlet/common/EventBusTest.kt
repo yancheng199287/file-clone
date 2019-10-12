@@ -17,9 +17,11 @@ class EventBusTest {
 
     @Test
     fun postEvent() {
-        EventBusCore.initRegisterLisener()
+        EventBusCore.initRegisterListener()
         val fileLogEvent = FileLogEvent()
         fileLogEvent.remark = "hello,I am from event"
         EventBusCore.post(fileLogEvent)
+
+        EventBusCore.postSystemLogEvent("正在扫描文件")
     }
 }

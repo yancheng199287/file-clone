@@ -10,13 +10,56 @@ import java.sql.Timestamp
  * Blog:www.520code.net
  * Github:https://github.com/yancheng199287
  */
-object FileDataDao : BaseDaoImpl<FileData, Int>(SqliteDataSource.getConnection(), FileData::class.java) {
+object FileDataDao : BaseDaoImpl<FileData, Int>(SqliteDataSource.getConnectionSource(), FileData::class.java) {
 
     fun saveFileData(fileData: FileData) {
         fileData.createTime = Timestamp(System.currentTimeMillis())
         fileData.updateTime = Timestamp(System.currentTimeMillis())
         this.create(fileData)
     }
+
+    fun batchSave(version: String, fileDataList: List<FileData>) {
+//        val sql = "insert or ignore into file_data  (id,md5,path,endStatus,version,createTime,updateTime) values\n" +
+//                "(null,'md555556891883','/home/aa/a1.txt',false,66,'1569577914734','1569577914734'),\n" +
+//                "(null,'md555556891224','/home/aa/a1.txt',false,66,'1569577914734','1569577914734');"
+        val sql = "insert or ignore into file_data  (id,md5,path,endStatus,version,createTime,updateTime) values "
+        val sb = StringBuilder(sql)
+        for (fileData in fileDataList) {
+            val time = System.currentTimeMillis().toString()
+            val value = " (null,'%s','%s',false,'%s','%s','%s'),".format(fileData.md5, fileData.path, version, time, time)
+            sb.append(value)
+        }
+        this.callBatchTasks {
+            this.executeRawNoArgs(sb.toString().dropLast(1))
+        }
+    }
+
+    fun saveIgnore(version: String, fileData: FileData) {
+        val sql = "insert or ignore into file_data  (id,md5,path,endStatus,version,createTime,updateTime) values "
+        val sb = StringBuilder(sql)
+        val time = System.currentTimeMillis().toString()
+        val value = " (null,'%s','%s',false,'%s','%s','%s'),".format(fileData.md5, fileData.path, version, time, time)
+        sb.append(value)
+        this.executeRawNoArgs(sb.toString().dropLast(1))
+    }
+
+    fun batchSave1(version: String, fileDataList: List<FileData>) {
+        val connection = SqliteDataSource.getConnectionSource().getReadWriteConnection(SqliteDataSource.tableName)
+        connection.isAutoCommit = false
+        for (fileData in fileDataList) {
+            val sql = "insert or ignore into file_data  (id,md5,path,endStatus,version,createTime,updateTime) values "
+            val sb = StringBuilder(sql)
+            val time = System.currentTimeMillis().toString()
+            val value = " (null,'%s','%s',false,'%s','%s','%s') ".format(fileData.md5, fileData.path, version, time, time)
+            sb.append(value)
+            connection.executeStatement(sb.toString(), -1)
+            println(sb.toString())
+        }
+        //null 表示全部提交
+        connection.commit(null)
+        connection.closeQuietly()
+    }
+
 
     /**
      *  根据文件md5查询是否存在缓存数据，并判断该文件对象是否已经传输完成

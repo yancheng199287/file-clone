@@ -19,7 +19,7 @@ object AppConf {
     val config = ConfigFactory.load()
 
     fun parseTempFilePath(): String {
-        return System.getProperty("user.dir") + "/" + "temp.txt"
+        return System.getProperty("user.dir") + "/" + "temp1.txt"
     }
 
     fun parseSecret(): String {

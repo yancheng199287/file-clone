@@ -18,6 +18,7 @@ object SqliteDataSource {
     private const val databaseUrl = "jdbc:sqlite:file-clone.db"
     private val basicDataSource: BasicDataSource = BasicDataSource()
     private lateinit var connectionSource: ConnectionSource
+    const val tableName = "file_data"
 
     init {
         initConfigDataSource()
@@ -28,10 +29,11 @@ object SqliteDataSource {
 
     fun initConfigDataSource() {
         basicDataSource.url = databaseUrl
-        basicDataSource.initialSize = 3
-        basicDataSource.maxTotal = 10
-        basicDataSource.maxIdle = 5
+        basicDataSource.initialSize = 10
+        basicDataSource.maxTotal = 50
+        basicDataSource.maxIdle = 10
         basicDataSource.minIdle = 2
+        basicDataSource.defaultAutoCommit = true
     }
 
     private fun initConnectionSource() {
@@ -46,7 +48,7 @@ object SqliteDataSource {
         return basicDataSource
     }
 
-    fun getConnection(): ConnectionSource {
+    fun getConnectionSource(): ConnectionSource {
         return connectionSource
     }
 }

@@ -32,7 +32,10 @@ object FileScan {
         future.whenComplete { result, exception ->
             run {
                 logger.info("FileScan Task has been completed，result:$result, exception:$exception")
+                val watch = StopWatch.createStarted()
                 saveFileToDB()
+                watch.stop()
+                logger.info("保存数据库文件完毕：${watch.getTime(TimeUnit.SECONDS)}")
             }
         }
     }
@@ -50,20 +53,21 @@ object FileScan {
         val file = File(filePath)
         val lineIterator = FileUtils.lineIterator(file, "UTF-8")
         lineIterator.use {
-            val list = ArrayList<File>(50)
+            val list = ArrayList<File>(100)
             while (lineIterator.hasNext()) {
                 val line = lineIterator.nextLine()
+                println(line)
                 val f = File(line)
                 if (!f.isDirectory) {
                     list.add(f)
                 }
                 try {
-                    if (list.size >= 50) {
+                    if (list.size >= 100) {
                         val watch = StopWatch.createStarted()
-                        val count = FileDataService.afterQuerySave(list)
+                        FileDataService.afterQuerySave(list)
                         watch.stop()
-                        logger.info("插入50个文件对象消耗时间：${watch.getTime(TimeUnit.MILLISECONDS)}")
-                        totalInsert += count
+                        logger.info("插入100个文件对象消耗时间：${watch.getTime(TimeUnit.MILLISECONDS)}")
+                        totalInsert += 100
                         list.clear()
                     }
                 } catch (e: Exception) {
@@ -71,10 +75,11 @@ object FileScan {
                 }
             }
             if (list.isNotEmpty()) {
-                logger.info("最后一批执行插入操作：当前list容量：" + list.size)
+                totalInsert += list.size
+                logger.info("最后一批执行插入操作：当前list容量：{}" + list.size)
                 FileDataService.afterQuerySave(list)
             }
-            logger.error("首次启动扫描文件完成，一共插入总数据：", totalInsert)
+            logger.error("首次启动扫描文件完成，一共插入总数据：{}", totalInsert)
         }
     }
 }

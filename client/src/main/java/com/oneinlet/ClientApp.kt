@@ -2,6 +2,7 @@ package com.oneinlet
 
 import com.oneinlet.common.AppConf
 import com.oneinlet.common.disruptor.DisruptorServer
+import com.oneinlet.common.event.EventBusCore
 import com.oneinlet.common.file.monitor.FileMonitor
 import com.oneinlet.common.file.scan.FileScan
 
@@ -17,9 +18,11 @@ import com.oneinlet.common.file.scan.FileScan
 fun main() {
     val clientClient = AppConf.parseClientConf()
     println("client config：$clientClient")
-    //启动客户端
+    //开启客户端连接
     CloneClient().startCloneClient(clientClient, object : CloneClient.ClientConnectSuccessListener {
         override fun onSuccess() {
+            //开启事件监听器
+            EventBusCore.initRegisterListener()
             // 开启文件扫描
             FileScan.startFileScan()
             // 开启文件监控

@@ -2,6 +2,9 @@ package com.oneinlet.common.event
 
 import com.google.common.eventbus.EventBus
 import com.oneinlet.common.event.listener.FileLogListener
+import com.oneinlet.common.event.listener.SystemLogListener
+import com.oneinlet.common.event.source.FileLogEvent
+import com.oneinlet.common.event.source.SystemLogEvent
 
 /**
  * Created by WangZiHe on 19-8-20
@@ -30,14 +33,21 @@ object EventBusCore {
         eventBus.post(obj)
     }
 
-    fun batchRegisterLisener(vararg objs: Any) {
+    fun postFileLogListener(info: String) {
+        eventBus.post(FileLogEvent(info))
+    }
+
+    fun postSystemLogEvent(info: String) {
+        eventBus.post(SystemLogEvent(info))
+    }
+
+    private fun batchRegisterListener(vararg objs: Any) {
         for (obj in objs) {
             this.register(obj)
         }
     }
 
-    fun initRegisterLisener() {
-        val fileLogListener = FileLogListener()
-        this.batchRegisterLisener(fileLogListener)
+    fun initRegisterListener() {
+        this.batchRegisterListener(FileLogListener(), SystemLogListener())
     }
 }

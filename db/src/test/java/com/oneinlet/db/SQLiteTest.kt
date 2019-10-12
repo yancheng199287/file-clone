@@ -15,6 +15,25 @@ class SQLiteTest {
 
 
     @Test
+    fun batchSaveTest() {
+       println( FileData.getCurrentVersion())
+
+       /* // FileDataDao.batchSave()
+        val fileData = FileData()
+        fileData.path = "/home/aa/p.xls"
+        fileData.md5 = "asda55ada5da999888"
+
+        val fileData1 = FileData()
+        fileData1.path = "/home/aa/asaas.mp3"
+        fileData1.md5 = "asdadad555"
+
+        val list = ArrayList<FileData>()
+        list.add(fileData)
+        list.add(fileData1)
+        FileDataDao.batchSave("888888888", list)*/
+    }
+
+    @Test
     fun addFileDataTest() {
         var fileData = FileData()
         fileData.md5 = "ad656asd6a5da56a"

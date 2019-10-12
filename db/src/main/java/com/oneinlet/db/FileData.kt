@@ -2,6 +2,7 @@ package com.oneinlet.db
 
 import com.j256.ormlite.field.DatabaseField
 import com.j256.ormlite.table.DatabaseTable
+import com.oneinlet.YCString
 import java.sql.Timestamp
 import java.time.LocalDateTime
 
@@ -28,4 +29,12 @@ data class FileData(
         var createTime: Timestamp? = null,
         @DatabaseField(canBeNull = false)
         var updateTime: Timestamp? = null
-)
+) {
+    companion object {
+        private var currentVersion = YCString.generateRandomChar(5)
+        //每次生成新的版本号标识
+        fun getCurrentVersion(): String {
+            return currentVersion
+        }
+    }
+}
